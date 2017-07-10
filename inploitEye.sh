@@ -4,20 +4,13 @@
 #Heitor Gouvea
 #InploitEye
 #ZOOM EYE API
-#version 0.2
-
-#Inploit Security
 
 function helper(){
 	echo -en "[WebApp]\n"
-	echo -en "inploitEye --site <site>\n"
-	echo -en "inploitEye --site <site> --app <webapp>\n"
-	echo -en "inploitEye --site www.example.com --app wordpress-4.7.2\n"
+	echo -en "inploitEye --site\n"
 	echo -en "\n"
 	echo -en "[Infra]\n"
-	echo -en "inploitEye --ip <ip>\n"
-	echo -en "inploitEye --ip <ip> --port <port>\n"
-	echo -en "inploitEye --ip 10.10.10.10 --port 21\n"
+	echo -en "inploitEye --ip\n"
 
 }
 
@@ -47,84 +40,32 @@ function cms_app2(){
 	read vers
 	ver_query=$(perl -MURI::Escape -e 'print uri_escape("ver:'$vers'");' "$2")
 	final_query=$country_query$app_query$ver_query
-	echo $final_query
-
 	i="0";
-	ip=[]
-	site=[]
-	languages=[]
-	serverName=[]
-	header=[]
-	dbName=[]
-	wafInfo=[]
-	Web=[]
-	Domain=[]
-	ServerVersion=[]
-	
-        accessToken_1=$(curl -XPOST https://api.zoomeye.org/user/login -d '{"username":"", "password":""}')
+	passwd=$(cat config | grep "password" | cut -d ":" -f2)
+	user=$(cat config | grep "username" | cut -d ":" -f2)
+        accessToken_1=$(curl -XPOST https://api.zoomeye.org/user/login -d '{"username":'$user', "password":'$passwd'}')
         accessToken=$(echo $accessToken_1 | cut -d ":" -f2 | cut -d '"' -f2)
-        echo $accessToken
         Auth_preparer=$(curl -X GET 'https://api.zoomeye.org/web/search?query='$final_query'&page=1&facets=app,os' -H "Authorization: JWT $accessToken")
         echo $Auth_preparer > data.json
 	quant=$(cat data.json | grep -o '"site"' | wc -l)
 	while [ $i -ne $quant ]; do
 		#echo "t${ip[$i]}t"
-		ip[$i]=$(jq '.matches[$i].ip[0]' data.json)
-		i=$[$i+1]
-	done
-	
-	i="0"
-	while [ $i -ne $quant ]; do
+		ip[$i]=$(jq '.matches['$i'].ip' data.json)
 		webappVersion[$i]=$(jq '.matches['$i'].webapp[0].version' data.json)
-		i=$[$i+1]
-	done
-
-	i="0"
-	while [ $i -ne "${#ip[@]}" ]; do
-		 Web[$i]=$(jq '.matches['$i'].webapp[0].name' data.json)
-		 i=$[$i+1]
-	done
-	i="0"
-	while [ $i -ne "${#ip[@]}" ]; do
+		Web[$i]=$(jq '.matches['$i'].webapp[0].name' data.json)
 		site[$i]=$(jq '.matches['$i'].site' data.json)
-		i=$[$i+1]
-	done
-	i="0"
-	while [ $i -ne "${#ip[@]}" ]; do
 		language[$i]=$(jq '.matches['$i'].language[0]' data.json)
-		i=$[$i+1]
-	done
-	i="0"
-	while [ $i -ne "${#ip[@]}" ]; do
 		wafInfo[$i]=$(jq '.matches['$i'].waf['']' data.json)
-		i=$[$i+1]
-	done
-	i="0"
-	while [ $i -ne "${#ip[@]}" ]; do
 		Domain[$i]=$(jq '.matches['$i'].domains[0]' data.json)
-		i=$[$i+1]
-	done
-	i="0"
-	while [ $i -ne "${#ip[@]}" ]; do
 		dbName[$i]=$(jq '.matches['$i'].db[0].name' data.json)
-		i=$[$i+1]
-	done
-	i="0"
-	while [ $i -ne "${#ip[@]}" ]; do
 		ServerVersion[$i]=$(jq '.matches['$i'].server[0].version' data.json)
-		i=$[$i+1]
-	done
-	i="0"
-	while [ $i -ne "${#ip[@]}" ]; do
 		header[$i]=$(jq '.matches['$i'].headers' data.json)
-		i=$[$i+1]
-	done
-	while [ $i -ne "${#ip[@]}" ]; do
 		serverName[$i]=$(jq '.matches['$i'].server[0].name' data.json)
 		i=$[$i+1]
 	done
 	i="0"
 	while [ $i -ne "${#ip[@]}" ]; do
+		echo "+=================================+"
 		echo "Site: ${site[$i]}"
 		echo "Ip: ${ip[$i]}"
 		echo "Header: ${header[$i]}"
@@ -135,18 +76,13 @@ function cms_app2(){
 		echo "db name: ${dbName[$i]}"
 		echo "Sever version: ${SeverVersion[$i]}"
 		echo "ServerName: ${serverName[$i]}"
-		echo "+=================================+"
 		i=$[$i+1]
 	done
 	rm -rf data.json
 }
 
+
 function portable(){
-	ipInfo=[]
-	portInfo=[]
-	portBanner=[]
-	versionInfo=[]
-	serviceInfo=[]
 	echo -ne "Port: "
 	read port
 	port_query=$(perl -MURI::Escape -e 'print uri_escape("port:'$port' ");' "$2")
@@ -157,12 +93,12 @@ function portable(){
 	echo -ne "Country: "
 	read country
 	country_query=$(perl -MURI::Escape -e 'print uri_escape("country:'$country'");' "$2")
+	passwd=$(cat config | grep "password" | cut -d ":" -f2)
+        user=$(cat config | grep "username" | cut -d ":" -f2)
 
 	final_query=$port_query$app_query$country_query
-	echo $final_query
-	accessToken_1=$(curl -XPOST https://api.zoomeye.org/user/login -d '{"username":"", "password":""}')
+	accessToken_1=$(curl -XPOST https://api.zoomeye.org/user/login -d '{"username":'$user', "password":'$passwd'}')
         accessToken=$(echo $accessToken_1 | cut -d ":" -f2 | cut -d '"' -f2)
-	echo $accessToken
         Auth_preparer=$(curl -X GET 'https://api.zoomeye.org/host/search?query='$final_query'&page=1&facet=app,os' -H "Authorization: JWT $accessToken")
        	echo $Auth_preparer > data.json
 	quant=$(cat data.json | grep -o '"ip"' | wc -l)
@@ -170,30 +106,9 @@ function portable(){
 	while [ $i -ne $quant ];do
 		ipInfo[$i]=$(jq '.matches['$i'].ip' data.json)
 		i=$[$i+1]
-	done
-	
-	echo "TAMANHO: ${#ipInfo[@]}"
-
-	i="0"
-	while [ $i -ne "${#ipInfo[@]}" ]; do
 		portInfo[$i]=$(jq '.matches['$i'].portinfo.app' data.json)
-		i=$[$i+1]
-	done
-
-	i="0"
-	while [$i -ne "${#ipInfo[@]}" ]; do
 		versionInfo[$i]=$(jq '.matches['$i'].portinfo.version' data.json)
-		i=$[$i+1]
-	done
-	
-	i="0"
-	while [$i -ne "${#ipInfo[@]}" ]; do
 		serviceInfo[$i]=$(jq '.matches['$i'].portinfo.service' data.json)
-		i=$[$i+1]
-	done
-
-	i="0"
-	while [ $i -ne "${#ipInfo[@]}" ]; do
 		portBanner[$i]=$(jq '.matches['$i'].portinfo.banner' data.json)
 		i=$[$i+1]
 	done
@@ -208,7 +123,7 @@ function portable(){
 		echo "+===================================+"
 		i=$[$i+1]
 	done
-	rm -rf data.json
+	#rm -rf data.json
 }
 
 banner
@@ -223,3 +138,4 @@ case $1 in
 ;;
 "--banner") banner
 ;;
+esac
