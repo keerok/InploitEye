@@ -23,8 +23,11 @@ App Used: WordPress
 
 Version: 4.7.2
 
-
-
+    
+    
+     
+      
+      
 
 ./inploitEye.sh --ip
 
