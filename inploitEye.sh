@@ -1,6 +1,5 @@
 #!/bin/bash
-
-#Guilherme Assmann
+#InploitSecurity
 #ZOOM EYE API
 
 function helper(){
