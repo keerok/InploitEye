@@ -39,9 +39,9 @@ function webapp(){
 	i="0";
 	passwd=$(cat config | grep "password" | cut -d ":" -f2)
 	user=$(cat config | grep "username" | cut -d ":" -f2)
-        accessToken_1=$(curl -XPOST https://api.zoomeye.org/user/login -d '{"username":'$user', "password":'$passwd'}')
+        accessToken_1=$(curl --silent -XPOST https://api.zoomeye.org/user/login -d '{"username":'$user', "password":'$passwd'}')
         accessToken=$(echo $accessToken_1 | cut -d ":" -f2 | cut -d '"' -f2)
-        Auth_preparer=$(curl -X GET 'https://api.zoomeye.org/web/search?query='$final_query'&page=1&facets=app,os' -H "Authorization: JWT $accessToken")
+        Auth_preparer=$(curl --silent -X GET 'https://api.zoomeye.org/web/search?query='$final_query'&page=1&facets=app,os' -H "Authorization: JWT $accessToken")
         echo $Auth_preparer > data.json
 	quant=$(cat data.json | grep -o '"site"' | wc -l)
 	while [ $i -ne $quant ]; do
@@ -89,9 +89,9 @@ function portable(){
 	passwd=$(cat config | grep "password" | cut -d ":" -f2)
         user=$(cat config | grep "username" | cut -d ":" -f2)
 
-	accessToken_1=$(curl -XPOST https://api.zoomeye.org/user/login -d '{"username":'$user', "password":'$passwd'}')
+	accessToken_1=$(curl --silent -XPOST https://api.zoomeye.org/user/login -d '{"username":'$user', "password":'$passwd'}')
         accessToken=$(echo $accessToken_1 | cut -d ":" -f2 | cut -d '"' -f2)
-        Auth_preparer=$(curl -X GET 'https://api.zoomeye.org/host/search?query='$final_query'&page=1&facet=app,os' -H "Authorization: JWT $accessToken")
+        Auth_preparer=$(curl --silent -X GET 'https://api.zoomeye.org/host/search?query='$final_query'&page=1&facet=app,os' -H "Authorization: JWT $accessToken")
        	echo $Auth_preparer > data.json
 	quant=$(cat data.json | grep -o '"ip"' | wc -l)
 	i="0"
