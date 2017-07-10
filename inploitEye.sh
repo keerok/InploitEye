@@ -1,8 +1,6 @@
 #!/bin/bash
 
 #Guilherme Assmann
-#Heitor Gouvea
-#InploitEye
 #ZOOM EYE API
 
 function helper(){
