@@ -11,32 +11,11 @@ username:"user@email.com"
 password:"password123"
 
 ## Usage
---site: para fazer busca referente a algum tipo de webapp
+A ferramenta usa as 'dorks' da zoomeye.org como argumentos, seguido da especifição do modo de uso, caso seja '--web', você irá passar as 'dorks' referentes a web, caso seja '--host' você passara as dorks referentes a infra.
 
---ip: para fazer busca referente a alguma porta
+./inploitEye.sh --site site:www.example.com app:wordpress ver:4.7.3 country:brazil
 
-./inploitEye.sh --site
-
-country:brazil
-
-App Used: WordPress
-
-Version: 4.7.2
-
-    
-    
-     
-      
-      
-
-./inploitEye.sh --ip
-
-Port: 21
-
-App: vsftpd
-
-Country: brazil
-
+./inploitEye.sh --host port:21 app:vsftd country:brazil
 
 
 A versão atual ainda é instável
