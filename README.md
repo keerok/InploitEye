@@ -2,6 +2,11 @@
 
 Ferramenta baseada na API da ferramenta www.zoomeye.org.
 
+### DOWNLOAD
+```
+git clone https://github.com/m4k4br0/InploitEye
+apt install jq
+```
 ### CONFIG
 O arquivo config, deve ter seus dados substituidos pelas suas credenciais do www.zoomeye.org.
 
@@ -19,3 +24,6 @@ A ferramenta usa as 'dorks' da zoomeye.org como argumentos, seguido da especifi�
 Você pode verificar os filtros de busca na seguinte url: https://www.zoomeye.org/api/doc#search-filters
 
 A versão atual ainda é instável
+
+### Reports
+Email:keerok@protonmail.com
