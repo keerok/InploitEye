@@ -125,7 +125,6 @@ function cms_app2(){
 	done
 	i="0"
 	while [ $i -ne "${#ip[@]}" ]; do
-		echo "+=================================+"
 		echo "Site: ${site[$i]}"
 		echo "Ip: ${ip[$i]}"
 		echo "Header: ${header[$i]}"
@@ -139,6 +138,7 @@ function cms_app2(){
 		echo "+=================================+"
 		i=$[$i+1]
 	done
+	rm -rf data.json
 }
 
 function portable(){
@@ -208,6 +208,7 @@ function portable(){
 		echo "+===================================+"
 		i=$[$i+1]
 	done
+	rm -rf data.json
 }
 
 banner
