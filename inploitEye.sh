@@ -96,7 +96,7 @@ function webapp(){
 		echo "Site: ${site[$i]}"
 		echo "Ip: ${ip[$i]}"
 		echo "Header: ${header[$i]}"
-		echo "Language: ${Domain[$i]}"
+		echo "Language: ${language[$i]}"
 		echo "WAF: ${wafInfo[$i]}"
 		echo "Webapp Used: ${Web[$i]} Version: ${webappVersion[$i]}"
 		echo "Domain: ${Domain[$i]}"
