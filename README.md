@@ -4,8 +4,10 @@ Ferramenta baseada na API da ferramenta www.zoomeye.org.
 
 ## CONFIG
 O arquivo config, deve ter seus dados substituidos pelas suas credenciais do www.zoomeye.org.
-example:
+
+exemplo:
 username:"user@email.com"
+
 password:"password123"
 
 ## Usage
