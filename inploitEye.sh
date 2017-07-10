@@ -92,7 +92,8 @@ function webapp(){
 	done
 	i="0"
 	while [ $i -ne "${#ip[@]}" ]; do
-		echo "+=================================+"
+		echo "\n"
+		echo "\n"
 		echo "Site: ${site[$i]}"
 		echo "Ip: ${ip[$i]}"
 		echo "Header: ${header[$i]}"
@@ -137,13 +138,13 @@ function portable(){
 	done
 	i="0"
 	while [ $i -ne $quant ]; do
-		echo "+===================================+"
+		echo "\n"
+		echo "\n"
 		echo "Ip: ${ipInfo[$i]}" 
 		echo "PortInfo: ${portInfo[$i]}"
 		echo "PortInfo Version: ${versionInfo[$i]}"
 		echo "Service Info: ${serviceInfo[$i]}"
 		echo "Port Banner: ${portBanner[$i]}"
-		echo "+===================================+"
 		i=$[$i+1]
 	done
 	#rm -rf data.json
