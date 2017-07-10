@@ -39,21 +39,14 @@ function banner(){
 function cms_app2(){
 	echo -ne "Country: "
 	read country
-	if [ $country != "" ]; then
-		query_country="country:$country"
-	fi
+	country_query=$(perl -MURI::Escape -e 'print uri_escape("country:'$country' ");' "$2")
 	echo -ne "App Used: "
 	read app
-	if [ $app != "" ]; then
-		query_app="app:$app"
-	fi
-	if [ $app != "" ]; then
-		if [ $country != "" ]; then
-			final_query="$query_country%20$query_app%20"
-		else
-			final_query="$query_country%20"
-		fi
-	fi
+	new_app=$app
+	app_query=$(perl -MURI::Escape -e 'print uri_escape("app:WordPress");' "$2")
+	final_query=$country_query$app_query
+	echo $final_query
+
 	i="0";
 	ip=[]
 	site=[]
@@ -78,7 +71,12 @@ function cms_app2(){
 		i=$[$i+1]
 	done
 	
-	echo "TAMANHO: ${#ip[@]}"
+	i="0"
+	while [ $i -ne $quant ]; do
+		webappVersion[$i]=$(jq '.matches['$i'].webapp[0].version' data.json)
+		i=$[$i+1]
+	done
+
 	i="0"
 	while [ $i -ne "${#ip[@]}" ]; do
 		 Web[$i]=$(jq '.matches['$i'].webapp[0].name' data.json)
@@ -131,7 +129,7 @@ function cms_app2(){
 		echo "Header: ${header[$i]}"
 		echo "Language: ${Domain[$i]}"
 		echo "WAF: ${wafInfo[$i]}"
-		echo "Webapp Used: ${Web[$i]}"
+		echo "Webapp Used: ${Web[$i]} Version: ${webappVersion[$i]}"
 		echo "Domain: ${Domain[$i]}"
 		echo "db name: ${dbName[$i]}"
 		echo "Sever version: ${SeverVersion[$i]}"
