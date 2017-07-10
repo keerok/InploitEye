@@ -12,6 +12,33 @@ function helper(){
 	echo -en "inploitEye --host ip:0.0.0.0 app:ProFTPD country:brazil\n"
 
 }
+function banner_2(){
+	echo -en "MMMMMMMMMMMMMMMMMNhs+//////+shNMMMMMMMMMMMMMMMMM\n"
+	echo -en "MMMMMMMMMMMMMMMMs//////////////sMMMMMMMMMMMMMMMM\n"
+	echo -en "MMMMMMMMMMMMMMMo///++++++++++///oMMMMMMMMMMMMMMM\n"
+	echo -en "MMMMMMMMMMMMMMd/hNMMMMMMMMMMMMNh/dMMMMMMMMMMMMMM\n"
+	echo -en "MMMMMMmyNMMMMMyyMMMMMMMMMMMMMMMMyyMMMMMNymMMMMMM\n"
+	echo -en "MMMMNoohNMMMMMy+NMMMMNyooyNMMMMN+yMMMMMNhooNMMMM\n"
+	echo -en "MMMMMMdo+sNMMMd//syyo//////oyys//dMMMNs+odMMMMMM\n"
+	echo -en "MMMMMMMMhyhmMMMo////////////////oMMMmhyhMMMMMMMM\n"
+	echo -en "MMMMMMMMMdhyNMMMo//////////////oMMMNyhdMMMMMMMMM\n"
+	echo -en "MMMMMMMMMMh+osNMMh////////////hMMNso+hMMMMMMMMMM\n"
+	echo -en "MMMMMMMMMMMMdhysmMMh////////hMMmsyhdMMMMMMMMMMMM\n"
+	echo -en "MMMMMMMMMMMNyo//yMNh////////hNMy//oyNMMMMMMMMMMM\n"
+	echo -en "MMMMMMMMMMNmdh+//////////////////+hdmNMMMMMMMMMM\n"
+	echo -en "MMMMMMMMh+////////////////////////////+hMMMMMMMM\n"
+	echo -en "MMMMMMMo////////////////////////////////oMMMMMMM\n"
+	echo -en "MMMMMMy//////////////////////////////////yMMMMMM\n"
+	echo -en "MMMMMN////////////////////////////////////NMMMMM\n"
+	echo -en "MMMMMy////////////////////////////////////yMMMMM\n"
+	echo -en "MMMMM+////////////////////////////////////+MMMMM\n"
+	echo -en "MMMMN//////////////////////////////////////NMMMM\n"
+	echo -en "MMMMd//////////////////////////////////////dMMMM\n"
+	echo -en "MMMMd//////////////////////////////////////dMMMM\n"
+	echo -en "MMMMMmhso//////////////////////////////oshmMMMMM\n"
+	echo -en "MMMMMMMMMMNmdhysoo++////////++oosyhdmNMMMMMMMMMM\n"
+}
+
 
 function banner(){
 
@@ -41,6 +68,7 @@ function webapp(){
 	user=$(cat config | grep "username" | cut -d ":" -f2)
         accessToken_1=$(curl --silent -XPOST https://api.zoomeye.org/user/login -d '{"username":'$user', "password":'$passwd'}')
         accessToken=$(echo $accessToken_1 | cut -d ":" -f2 | cut -d '"' -f2)
+	banner_2
         Auth_preparer=$(curl --silent -X GET 'https://api.zoomeye.org/web/search?query='$final_query'&page=1&facets=app,os' -H "Authorization: JWT $accessToken")
         echo $Auth_preparer > data.json
 	quant=$(cat data.json | grep -o '"site"' | wc -l)
@@ -91,6 +119,7 @@ function portable(){
 
 	accessToken_1=$(curl --silent -XPOST https://api.zoomeye.org/user/login -d '{"username":'$user', "password":'$passwd'}')
         accessToken=$(echo $accessToken_1 | cut -d ":" -f2 | cut -d '"' -f2)
+	banner_2
         Auth_preparer=$(curl --silent -X GET 'https://api.zoomeye.org/host/search?query='$final_query'&page=1&facet=app,os' -H "Authorization: JWT $accessToken")
        	echo $Auth_preparer > data.json
 	quant=$(cat data.json | grep -o '"ip"' | wc -l)
