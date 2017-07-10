@@ -1,13 +1,15 @@
 #!/bin/bash
-#InploitSecurity
-#ZOOM EYE API
+
+#Guilherme Assmann
+#Heitor Gouvea
+#InploiSecurity
 
 function helper(){
 	echo -en "[WebApp]\n"
-	echo -en "inploitEye --site\n"
+	echo -en "inploitEye --web site:example.com app:wordpress ver:4.7.2 country:brazil\n"
 	echo -en "\n"
 	echo -en "[Infra]\n"
-	echo -en "inploitEye --ip\n"
+	echo -en "inploitEye --host ip:0.0.0.0 app:ProFTPD country:brazil\n"
 
 }
 
@@ -26,17 +28,14 @@ function banner(){
 
 }
 
-function cms_app2(){
-	echo -ne "Country: "
-	read country
-	country_query=$(perl -MURI::Escape -e 'print uri_escape("country:'$country' ");' "$2")
-	echo -ne "App Used: "
-	read app
-	app_query=$(perl -MURI::Escape -e 'print uri_escape("app:'$app' ");' "$2")
-	echo -ne "Version: "
-	read vers
-	ver_query=$(perl -MURI::Escape -e 'print uri_escape("ver:'$vers'");' "$2")
-	final_query=$country_query$app_query$ver_query
+function webapp(){
+	for i in $argumentos ; do
+		if [ $i != "--web" ];then
+			pontos=$(echo $i | cut -d ":" -f1)
+			depois=$(echo $i | cut -d ":" -f2)
+			final_query+=$pontos":"$(perl -MURI::Escape -e 'print uri_escape("'$depois' ");' "$2")
+		fi
+	done
 	i="0";
 	passwd=$(cat config | grep "password" | cut -d ":" -f2)
 	user=$(cat config | grep "username" | cut -d ":" -f2)
@@ -80,20 +79,16 @@ function cms_app2(){
 
 
 function portable(){
-	echo -ne "Port: "
-	read port
-	port_query=$(perl -MURI::Escape -e 'print uri_escape("port:'$port' ");' "$2")
-	echo -ne "App: "
-	read app
-	app_query=$(perl -MURI::Escape -e 'print uri_escape("app:'$app' ");' "$2")
-	
-	echo -ne "Country: "
-	read country
-	country_query=$(perl -MURI::Escape -e 'print uri_escape("country:'$country'");' "$2")
+	for i in $argumentos; do
+		if [ $i != "--host" ];then
+			pontos=$(echo $i | cut -d ":" -f1)
+			depois=$(echo $i | cut -d ":" -f2)
+			final_query+=$pontos":"$(perl -MURI::Escape -e 'print uri_escape("'$depois' ");' "$2")
+		fi
+	done
 	passwd=$(cat config | grep "password" | cut -d ":" -f2)
         user=$(cat config | grep "username" | cut -d ":" -f2)
 
-	final_query=$port_query$app_query$country_query
 	accessToken_1=$(curl -XPOST https://api.zoomeye.org/user/login -d '{"username":'$user', "password":'$passwd'}')
         accessToken=$(echo $accessToken_1 | cut -d ":" -f2 | cut -d '"' -f2)
         Auth_preparer=$(curl -X GET 'https://api.zoomeye.org/host/search?query='$final_query'&page=1&facet=app,os' -H "Authorization: JWT $accessToken")
@@ -124,9 +119,9 @@ function portable(){
 
 banner
 case $1 in
-"--ip") portable
+"--host") argumentos=$* ; portable
 ;;
-"--site") cms_app2
+"--web") argumentos=$* ; webapp
 ;;
 "-h") helper
 ;;
