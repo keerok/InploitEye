@@ -64,7 +64,7 @@ function cms_app2(){
         echo $accessToken
         Auth_preparer=$(curl -X GET 'https://api.zoomeye.org/web/search?query='$final_query'&page=1&facets=app,os' -H "Authorization: JWT $accessToken")
         echo $Auth_preparer > data.json
-	quant=$(cat data.json | grep -o '"ip"' | wc -l)
+	quant=$(cat data.json | grep -o '"site"' | wc -l)
 	while [ $i -ne $quant ]; do
 		#echo "t${ip[$i]}t"
 		ip[$i]=$(jq '.matches[$i].ip[0]' data.json)
