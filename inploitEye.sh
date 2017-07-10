@@ -42,9 +42,11 @@ function cms_app2(){
 	country_query=$(perl -MURI::Escape -e 'print uri_escape("country:'$country' ");' "$2")
 	echo -ne "App Used: "
 	read app
-	new_app=$app
-	app_query=$(perl -MURI::Escape -e 'print uri_escape("app:WordPress");' "$2")
-	final_query=$country_query$app_query
+	app_query=$(perl -MURI::Escape -e 'print uri_escape("app:'$app' ");' "$2")
+	echo -ne "Version: "
+	read vers
+	ver_query=$(perl -MURI::Escape -e 'print uri_escape("ver:'$vers'");' "$2")
+	final_query=$country_query$app_query$ver_query
 	echo $final_query
 
 	i="0";
