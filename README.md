@@ -17,5 +17,6 @@ A ferramenta usa as 'dorks' da zoomeye.org como argumentos, seguido da especifi�
 
 ./inploitEye.sh --host port:21 app:vsftd country:brazil
 
+Você pode verificar os filtros de busca na seguinte url: https://www.zoomeye.org/api/doc#search-filters
 
 A versão atual ainda é instável
