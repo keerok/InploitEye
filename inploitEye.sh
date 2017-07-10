@@ -102,7 +102,6 @@ function portable(){
 	i="0"
 	while [ $i -ne $quant ];do
 		ipInfo[$i]=$(jq '.matches['$i'].ip' data.json)
-		i=$[$i+1]
 		portInfo[$i]=$(jq '.matches['$i'].portinfo.app' data.json)
 		versionInfo[$i]=$(jq '.matches['$i'].portinfo.version' data.json)
 		serviceInfo[$i]=$(jq '.matches['$i'].portinfo.service' data.json)
@@ -110,7 +109,7 @@ function portable(){
 		i=$[$i+1]
 	done
 	i="0"
-	while [ $i -ne "${#ipInfo[@]}" ]; do
+	while [ $i -ne $quant ]; do
 		echo "+===================================+"
 		echo "Ip: ${ipInfo[$i]}" 
 		echo "PortInfo: ${portInfo[$i]}"
