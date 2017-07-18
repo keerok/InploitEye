@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#Guilherme Assmann
-#Heitor Gouvea
-#InploiSecurity
-
 function helper(){
 	echo -en "[WebApp]\n"
 	echo -en "inploitEye --web site:example.com app:wordpress ver:4.7.2 country:brazil\n"
@@ -52,7 +48,6 @@ function banner(){
 	echo -en "           |_|                       |___/      \n"
 	echo -en "		Version: 0.2			  \n"
 	echo -en "	  Athor:Guilherme Assmann		  \n"
-	echo -en "	        Heitor Gouvea			  \n"
 	echo -en "						  \n"
 	echo -en "	      Inploit Security			  \n"
 
