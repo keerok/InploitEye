@@ -47,7 +47,7 @@ function banner(){
 	echo -en "           | |                        __/ |     \n"
 	echo -en "           |_|                       |___/      \n"
 	echo -en "		Version: 0.2			  \n"
-	echo -en "	  Athor:Guilherme Assmann		  \n"
+	echo -en "	  Athor: Guilherme Assmann		  \n"
 	echo -en "						  \n"
 	echo -en "	      Inploit Security			  \n"
 
